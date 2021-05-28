@@ -3,6 +3,7 @@
 
 "Python that i use {{{
 "}}}
+source ~/.config/nvim/options.vim
 
 "  Mapping Leader and other issues----------{{{
 "  These things are there as they are needed for plugin configurations or so i
@@ -14,62 +15,21 @@ map <space> <leader>
 map <space><space> <leader><leader>
 " enable filetype plugin built-in with vim
 filetype plugin indent on
-" not compatible with vi
-set nocp
-" search down into subfolders
-set path+=**
-set cc=80 " Highlight column at 80
-" set backspace=indent,eol,start
+source ~/.config/nvim/plugins.vim
 "}}}
 
-"  Vundle Initialization {{{
-" This loads all the plugins specified in ~/.vim/plugins.vim
-" Use Vundle plugin to manage all other plugins
-if has('nvim')
-    if filereadable(expand("~/.config/nvim/plugins.vim"))
-      source ~/.config/nvim/plugins.vim
-    endif
-else
-    if filereadable(expand("~/.vim/plugins.vim"))
-      source ~/.vim/plugins.vim
-    endif
-endif
-" }}}
-
 "set colorscheme{{{
-"set background=dark
-colo Tomorrow-Night-Eighties
-highlight NormalFloat cterm=NONE ctermfg=14 ctermbg=0 gui=NONE guifg=#93a1a1 guibg=#002931
+colo gruvbox
 "}}}
 
 "edit vimrc/zshrc and load vimrc bindings{{{
 
-if has('nvim')
-    nnoremap <leader>ev :vsp ~/.config/nvim/init.vim<CR>
-else
-    nnoremap <leader>ev :vsp ~/.vimrc<CR>
-endif
+nnoremap <leader>ev :vsp ~/.config/nvim/init.vim<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
 
-if has('nvim')
-    nnoremap <leader>sv :source ~/.config/nvim/init.vim<CR>
-else
-    nnoremap <leader>sv :source ~/.vimrc<CR>
-endif
-if has('nvim')
-    nnoremap <leader>ep :vsp ~/.config/nvim/plugins.vim<CR>
-else
-    nnoremap <leader>ep :vsp ~/.config/nvim/plugins.vim<CR>
-endif
+nnoremap <leader>sv :source ~/.config/nvim/init.vim<CR>
+nnoremap <leader>ep :vsp ~/.config/nvim/plugins.vim<CR>
 nnoremap <leader>ei :vsp ~/.i3/config<CR>
-"}}}
-
-"move backup to /tmp{{{
-set backup
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set backupskip=/tmp/*,/private/tmp/*
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set writebackup
 "}}}
 
 "Functions {{{
@@ -102,39 +62,6 @@ nnoremap <F3> :call StripTrailingWhitespaces()<CR>
 
 "}}}
 
-"My costumisations {{{
-"I won't enable mouse for a good practice of vim motion commands
-set shiftwidth=4
-set expandtab
-syntax on                   " syntax highlighting
-set ai                      " autoindent not that AI(lol)
-set softtabstop=4           " number of spaces in tab when editing
-set tabstop=4               " number of visual spaces per TAB
-set rnu
-set cursorline              " highlight current line
-filetype indent on          " load filetype-specific indent files
-set wildmenu                " visual autocomplete for command menu
-set vb
-set complete=.,w,b,u,t,i,],kspell
-set nospell
-set tags=~/Polaris/tags
-set omnifunc=syntaxcomplete#Complete
-set number
-hi Search ctermbg=DarkMagenta
-"code folding{{{
-set foldenable              " enable folding
-set foldlevelstart=10        " close all folds by default
-set foldmethod=indent       " fold based on indent level
-" }}}
-
-"  Search settings {{{
-
-set incsearch               " search as characters are entered
-set hlsearch                " highlight matches
-set showmatch               " highlight matching [{{{()}}}]
-set showcmd                 " show command in bottom bar
-
-"}}}
 
 "}}}
 
@@ -208,16 +135,5 @@ augroup filetype_vim
     autocmd FileType vim setlocal  foldlevel=0
 augroup END
 " }}}
-
-" Python configuration {{{
-augroup filetype_python
-    autocmd!
-    autocmd FileType python set sw=4
-    autocmd FileType python set ts=4
-    autocmd FileType python set sts=4
-augroup END
-"}}}
-
-
 "}}}
 

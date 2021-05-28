@@ -14,13 +14,14 @@ source /home/aayush/.config/nvim/autoload/plug.vim
 "call plug#rc( '/home/aayush/.config/nvim/plugged')
 call plug#begin('/home/aayush/.config/nvim/plugins')
 Plug 'airblade/vim-gitgutter', {'do': 'GitGutterEnable' }
+Plug 'morhetz/gruvbox'
 Plug 'bling/vim-airline'
-Plug 'fatih/vim-go'
+" Plug 'fatih/vim-go'
 Plug 'flazz/vim-colorschemes'
 " Configuration for vim-plug
-Plug 'derekwyatt/vim-scala'
+" Plug 'derekwyatt/vim-scala'
 Plug 'jodosha/vim-godebug' " Debugger integration via delve
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
@@ -28,13 +29,17 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'w0rp/ale'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()            " required
 autocmd QuickFixCmdPost *grep* cwindow
 
 " Airline
 set laststatus=2
 let g:airline_encoding = "utf-8"
-let g:airline_theme = "luna"
+let g:airline_theme = "gruvbox"
 let g:airline_powerline_fonts = 1
 if isdirectory(expand(s:editor_root."/bundle/vim-airline/"))
             if !exists('g:airline_powerline_fonts')
@@ -208,3 +213,45 @@ if has('nvim')
     endfunction
     let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 endif
+
+" Treesitter config
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "javascript" }, -- List of parsers to ignore installing
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    disable = {"javascript"},  -- list of language that will be disabled
+  },
+}
+EOF
+augroup treesitter_enable
+    autocmd BufNewFile, BufRead * TSBufEnable
+augroup END
+
+" Telescope config
+" Using lua functions
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+lua <<EOF
+local actions = require('telescope.actions')
+require('telescope').setup{
+  defaults = {
+    file_previewer = require('telescope.previewers').vim_buffer_cat.new,
+    grep_previewer = require('telescope.previewers').vim_buffer_vimgrep.new,
+    qflist_previewer = require('telescope.previewers').vim_buffer_qflist.new,
+    mappings = {
+      i = {
+          ["<C-x>"] = false,
+          ["<C-q>"] = actions.send_to_qflist,
+      },
+      n = {
+        ["<esc>"] = actions.close,
+        ["<C-i>"] = my_cool_custom_action,
+      },
+    },
+  }
+}
+EOF
