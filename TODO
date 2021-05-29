@@ -1,0 +1,6 @@
+1. LSP for autocompletion, refactoring, syntax check and linting
+2. LSP for golang, python, scala and rust
+3. Test LSP
+4. Telescope: Add action for vertical and horizontal split open
+5. DAP for golang, python, scala and rust
+6.

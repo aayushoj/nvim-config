@@ -17,15 +17,15 @@ set nu                      " enable absolute number
 filetype indent on          " load filetype-specific indent files
 set wildmenu                " visual autocomplete for command menu
 set vb
-set complete=.,w,b,u,t,i,],kspell
+" set complete=.,w,b,u,t,i,],kspell
+set completeopt=menuone,noinsert,noselect
 set nospell
-set omnifunc=syntaxcomplete#Complete
+" set omnifunc=syntaxcomplete#Complete
 "code folding{{{
 set foldenable              " enable folding
 set foldlevelstart=10       " close all folds by default
 set foldmethod=indent       " fold based on indent level
 " }}}
-
 "  Search settings {{{
 set incsearch               " search as characters are entered
 set hlsearch                " highlight matches
