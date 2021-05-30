@@ -29,6 +29,9 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-telescope/telescope-dap.nvim'
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
 call plug#end()            " required
 autocmd QuickFixCmdPost *grep* cwindow
 
@@ -57,6 +60,7 @@ let NERDTreeDirArrows = 1
 " source telescope config
 source ~/.config/nvim/plugin-configs/telescope.vim
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').file_browser()<cr>
+nnoremap <leader>fl <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>ft <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').git_files()<cr>
