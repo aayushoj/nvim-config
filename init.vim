@@ -65,7 +65,6 @@ nnoremap <F3> :call StripTrailingWhitespaces()<CR>
 
 "}}}
 
-"Keymaps {{{
 
 " Main Keymaps{{{
 
@@ -111,6 +110,8 @@ onoremap ap' :<c-u>normal! F'va'<CR>
 onoremap ap` :<c-u>normal! F`va`<CR>
 "
 "
+" Open phabricator url from commit
+nnoremap <leader>gx :%g/phabricator/normal wwwgx<CR>
 " Turn on/off wrapping
 nnoremap <F6> :set wrap!<CR>
 " Show open buffers and help in quick switching
@@ -126,14 +127,4 @@ nnoremap <Right> <nop>
 
 "}}}
 
-" File specific settings {{{
-
-" Vimscript file settings ---------------------- {{{
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal  foldmethod=marker
-    autocmd FileType vim setlocal  foldlevel=0
-augroup END
-" }}}
-"}}}
 

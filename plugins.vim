@@ -13,15 +13,16 @@ endif
 source /home/aayush/.config/nvim/autoload/plug.vim
 "call plug#rc( '/home/aayush/.config/nvim/plugged')
 call plug#begin('/home/aayush/.config/nvim/plugins')
-Plug 'airblade/vim-gitgutter', {'do': 'GitGutterEnable' }
+Plug 'mhinz/vim-signify'
 Plug 'morhetz/gruvbox'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'ryanoasis/vim-devicons'
 Plug 'bling/vim-airline'
-Plug 'flazz/vim-colorschemes'
-Plug 'preservim/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'w0rp/ale'
+Plug 'tpope/vim-rhubarb'
+Plug 'jparise/vim-phabricator'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -49,12 +50,8 @@ if isdirectory(expand(s:editor_root."/bundle/vim-airline/"))
     endif
 endif
 
-"===============================NerdTree settings============
-nnoremap <F2> :NERDTreeToggle<Enter>
-let NERDTreeQuitOnOpen = 1
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+"===============================FileBrowser settings============
+nnoremap <F2> :Explore<Enter>
 
 " Telescope keybindings
 " source telescope config
@@ -68,3 +65,30 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " LSP
 source ~/.config/nvim/plugin-configs/lsp.vim
+
+" Vim Signify - Git Gutter
+" default updatetime 4000ms is not good for async update
+set updatetime=100
+
+" FZF
+" Preview window on the upper side of the window with 40% height,
+" hidden by default, ctrl-/ to toggle
+let g:fzf_preview_window = ['up:40%:hidden', 'ctrl-/']
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading -g "{*.go,*.py,*.scala}" --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+" ripgrep
+if executable('rg')
+  let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+  set grepprg=rg\ --vimgrep
+  command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
+endif
+nnoremap <C-n> :GitFiles<CR>
+nnoremap <C-F> :RG<CR>
+

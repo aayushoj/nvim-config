@@ -3,7 +3,7 @@
   local nvim_lsp = require('lspconfig')
 
   local on_attach = function(client, bufnr)
-    require('completion').on_attach()
+  require('completion').on_attach()
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -58,8 +58,10 @@
   end
 EOF
 
+" omni completion mapping
+let g:completion_trigger_character = ['.']
 " Completion
+let g:completion_enable_auto_popup = 0
+imap <silent> <C-o> <Plug>(completion_trigger)
 let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " -------------------- LSP ---------------------------------
