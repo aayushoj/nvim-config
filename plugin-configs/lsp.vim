@@ -3,12 +3,11 @@
   local nvim_lsp = require('lspconfig')
 
   local on_attach = function(client, bufnr)
-  require('completion').on_attach()
 
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
     local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+--    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
     -- Mappings
     local opts = { noremap=true, silent=true }
@@ -36,18 +35,18 @@
     end
 
     -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
-        vim.api.nvim_exec([[
-        hi LspReferenceRead cterm=bold ctermbg=red guibg=LightYellow
-        hi LspReferenceText cterm=bold ctermbg=red guibg=LightYellow
-        hi LspReferenceWrite cterm=bold ctermbg=red guibg=LightYellow
-        augroup lsp_document_highlight
-            autocmd!
-            autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-        augroup END
-        ]], false)
-    end
+    -- if client.resolved_capabilities.document_highlight then
+        -- vim.api.nvim_exec([[
+        -- hi LspReferenceRead cterm=bold ctermbg=blue guibg=LightYellow
+        -- hi LspReferenceText cterm=bold ctermbg=blue guibg=LightYellow
+        -- hi LspReferenceWrite cterm=bold ctermbg=blue guibg=LightYellow
+        -- augroup lsp_document_highlight
+            -- autocmd!
+            -- autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+            -- autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+        -- augroup END
+        -- ]], false)
+    -- end
   end
 
   local servers = {'pyright', 'gopls', 'rust_analyzer'}
@@ -56,12 +55,41 @@
       on_attach = on_attach,
     }
   end
+  -- compe setup
+  require'compe'.setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  resolve_timeout = 800;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+
+  source = {
+    path = false;
+    calc = false;
+    vsnip = false;
+    ultisnips = false;
+    luasnip = false;
+    buffer = true;
+    tag = true;
+    nvim_lsp = true;
+    nvim_lua = false;
+  };
+}
 EOF
 
-" omni completion mapping
-let g:completion_trigger_character = ['.']
-" Completion
-let g:completion_enable_auto_popup = 0
-imap <silent> <C-o> <Plug>(completion_trigger)
-let g:completion_matching_strategy_list = ['exact', 'substring', 'fuzzy']
-" -------------------- LSP ---------------------------------
+inoremap <silent><expr> <C-n>     compe#complete()
+inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+
+
+

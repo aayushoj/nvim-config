@@ -2,7 +2,6 @@
 " not compatible with vi
 set nocp
 " search down into subfolders
-set path+=**
 set colorcolumn=80 " Highlight column at 80
 set softtabstop=4           " number of spaces in tab when editing
 set tabstop=4               " number of visual spaces per TAB
@@ -17,8 +16,8 @@ set nu                      " enable absolute number
 filetype indent on          " load filetype-specific indent files
 set wildmenu                " visual autocomplete for command menu
 set vb
-" set complete=.,w,b,u,t,i,],kspell
-set completeopt=menuone,noinsert,noselect
+set complete=.,w,b,i,]
+set completeopt=menuone,noselect,noinsert
 set nospell
 " set omnifunc=syntaxcomplete#Complete
 "code folding{{{

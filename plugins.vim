@@ -13,6 +13,11 @@ endif
 source /home/aayush/.config/nvim/autoload/plug.vim
 "call plug#rc( '/home/aayush/.config/nvim/plugged')
 call plug#begin('/home/aayush/.config/nvim/plugins')
+" Add maktaba and bazel to the runtimepath.
+" (The latter must be installed before it can be used.)
+Plug 'psliwka/vim-smoothie'
+Plug 'google/vim-maktaba'
+Plug 'bazelbuild/vim-bazel'
 Plug 'mhinz/vim-signify'
 Plug 'morhetz/gruvbox'
 Plug 'junegunn/fzf'
@@ -22,14 +27,14 @@ Plug 'bling/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'jparise/vim-phabricator'
+Plug 'tpope/vim-unimpaired'
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'hrsh7th/nvim-compe'
+" Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-telescope/telescope-dap.nvim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'mfussenegger/nvim-dap-python'
@@ -90,5 +95,6 @@ if executable('rg')
   command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
 endif
 nnoremap <C-n> :GitFiles<CR>
+nnoremap <C-b> :Buffers<CR>
 nnoremap <C-F> :RG<CR>
 
